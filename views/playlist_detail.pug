@@ -1,0 +1,62 @@
+extends layout
+
+block content
+  link(rel='stylesheet', type='text/css', href='/css/login.css')
+  script(type="text/javascript" src="/js/CreatePlaylist.js")
+  script(type="text/javascript" src="/js/GetToken.js")
+  script(type="text/javascript").
+    var id = "#{_id}";
+  script(type="text/javascript" src="/js/SocketEvents.js")
+
+  h1.color #{title} · #{playlist.title}
+
+  h3.color Join Code · #{_id}
+
+  //p.color #[strong Number of Tracks ·] #{playlist.numberOfTracks}
+
+  div(class="search_bar")
+    select(class="search_bar_select" style="width: 99%")
+
+  div(align='left')
+    a(href="javascript:void(0)" class="delete_button")
+      span(class="delete") Delete
+      span(class="confirm") Confirm
+
+    a(href="javascript:void(0)" class="delete_button")
+      span(class="create") Create
+      span(class="confirm_create" onclick="makePlaylist("+ playlist +")") Confirm
+
+  script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+  
+  //Info for select
+  link(href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js")
+  script(type="text/javascript" src="/js/SearchTrack.js")
+
+  ul(id="scroll-container")
+    each track, index in playlist.tracks
+      if index % 2 == 0
+        li(style="background-color:lightgrey; margin-bottom:4px; margin-top:4px;" onclick="changeTrack(" + track + ")")
+          img(style="display: inline-block; width:10%;" src = JSON.parse(track).album.images[2].url)
+          text.trackname 
+            = JSON.parse(track).name + " · " + JSON.parse(track).album.artists[0].name
+
+          div.controlbuttoncontainer
+            input.littlebutt(id="deleteButton" type="button" value="╳" onclick="deleteTrack(" + track + ");")
+            input.littlebutt(id="reorderUpButton" type="button" value="△" onclick="reorderTrackUp(" + track + ");")
+            input.littlebutt(id="reorderDownButton" type="button" value="▽" onclick="reorderTrackDown(" + track + ");")
+            
+      else
+        li(style="background-color:#FFD6D1" onclick="changeTrack(" + track + ")")
+          img(style="display: inline-block; width:10%;" src = JSON.parse(track).album.images[2].url)
+          text.trackname
+            = JSON.parse(track).name + " · " + JSON.parse(track).album.artists[0].name
+
+          div.controlbuttoncontainer
+            input.littlebutt(id="deleteButton" type="button" value="╳" onclick="deleteTrack(" + track + ");")
+            input.littlebutt(id="reorderUpButton" type="button" value="△" onclick="reorderTrackUp(" + track + ");")
+            input.littlebutt(id="reorderDownButton" type="button" value="▽" onclick="reorderTrackDown(" + track + ");")
+
+
+  iframe#widget(frameborder='0', allowtransparency='true')
+

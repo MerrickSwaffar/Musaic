@@ -1,0 +1,32 @@
+extends layout
+
+
+block small_logo
+block content
+  script(type="text/javascript").
+    var from_delete = "#{from_delete}";
+  script(type="text/javascript" src="/js/DeleteToast.js")
+
+  if from_delete
+    div(id="toast")
+      div(id="img")
+        img(src='/assets/spotty.png')
+      div(id="desc") Playlist Deleted
+
+  #img
+    image.logo(src='/assets/updated_logo.png')
+			
+  #info
+    p
+      | Explore and collaborate on playlists with your friends.
+      br
+      |  Sign in with Spotify to start now!
+
+  #login_butt
+    a(href='/login_create')
+      img(style='vertical-align:middle', src='/assets/spotty.png')
+      |   Create a Playlist
+  #login_butt
+    a(href='/login_join')
+      img(style='vertical-align:middle', src='/assets/spotty.png')
+      |   Join a Playlist
